@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const todoSchema = mongoose.Schema({
   title: {
-    type: string,
+    type: String,
     required: true,
   },
-  description: string,
+  description: String,
   status: {
-    type: string,
+    type: String,
     enum: ["active", "inActive"],
   },
   date: {

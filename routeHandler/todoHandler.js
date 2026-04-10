@@ -13,7 +13,15 @@ router.get("/", async (req, res) => {});
 router.get("/:id", async (req, res) => {});
 
 //post a todo
-router.post("/", async (req, res) => {});
+router.post("/", async (req, res) => {
+  try {
+    const newTodo = new toDo(req.body);
+    await newTodo.save();
+    res.status(200).json({ message: "Todo inserted successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 //post all the todo
 router.post("/all", async (req, res) => {});
