@@ -1,8 +1,15 @@
 const express = require("express");
+const mongoose = require("mongoose");
 
 //express app initialization
 const app = express();
 app.use(express.json());
+
+//connect mongoose with database
+mongoose
+  .connect("mongodb://localhost/toDos")
+  .then(() => console.log("connection sucessfull"))
+  .catch((err) => console.log(err));
 
 //app routes
 
