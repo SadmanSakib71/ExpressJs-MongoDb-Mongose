@@ -34,7 +34,21 @@ router.post("/all", async (req, res) => {
 });
 
 //put a todo
-router.put("/:id", async (req, res) => {});
+router.put("/:id", async (req, res) => {
+  try {
+    await toDo.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          status: "active",
+        },
+      },
+    );
+    res.status(200).json({ message: "Todos was updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 //delete the todo
 router.delete("/:id", async (req, res) => {});
