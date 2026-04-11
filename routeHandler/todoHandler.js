@@ -66,7 +66,7 @@ router.put("/bulk-update", async (req, res) => {
       },
     }));
 
-    await toDo.bulkWrite(operations, {
+    const result = await toDo.bulkWrite(operations, {
       ordered: true,
     });
 
@@ -97,6 +97,23 @@ router.put("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+
+  //   try {
+  //   const updater = await toDo.findByIdAndUpdate(
+  //     { _id: req.params.id },
+  //     {
+  //       $set: {
+  //         status: req.body.status,
+  //       },
+  //     },
+  //     { new: true, runValidators: true },
+  //   );
+  //   res
+  //     .status(200)
+  //     .json({ result: updater, message: "Todos was updated successfully" });
+  // } catch (error) {
+  //   res.status(500).json({ error: error.message });
+  // }
 });
 
 //delete the todo
