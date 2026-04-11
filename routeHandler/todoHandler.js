@@ -40,9 +40,10 @@ router.put("/:id", async (req, res) => {
       { _id: req.params.id },
       {
         $set: {
-          status: "active",
+          status: req.body.status,
         },
       },
+      { runValidators: true },
     );
     res.status(200).json({ message: "Todos was updated successfully" });
   } catch (error) {
