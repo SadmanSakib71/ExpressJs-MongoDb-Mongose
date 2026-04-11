@@ -11,7 +11,7 @@ const toDo = mongoose.model("toDo", todoSchema);
 //get all the todo
 router.get("/", async (req, res) => {
   try {
-    const result = await toDo.find();
+    const result = await toDo.find({ status: "inActive" });
 
     res
       .status(200)
