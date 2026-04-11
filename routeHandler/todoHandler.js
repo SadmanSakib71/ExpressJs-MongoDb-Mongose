@@ -11,7 +11,7 @@ const toDo = mongoose.model("toDo", todoSchema);
 //get all the todo
 router.get("/", async (req, res) => {
   try {
-    const result = await toDo.find({ status: "inActive" });
+    const result = await toDo.find({ status: "active" }, { _id: 0 }).limit(2);
 
     res
       .status(200)
@@ -91,7 +91,15 @@ router.put("/bulk-update", async (req, res) => {
 //routes with id
 
 //get a todo by id
-router.get("/:id", async (req, res) => {});
+router.get("/:id", async (req, res) => {
+  try {
+    const result = await toDo.findOne({ _id: req.params.id }, { _id: 0 });
+
+    res.status(200).json({ result: result, message: "successfully get" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 //put a todo by
 router.put("/:id", async (req, res) => {
