@@ -88,6 +88,19 @@ router.put("/bulk-update", async (req, res) => {
   }
 });
 
+//delete the todos
+router.delete("/delete-all", async (req, res) => {
+  try {
+    const result = await toDo.deleteMany({ status: "active" });
+
+    res
+      .status(200)
+      .json({ result: result, message: "Todos was successfully deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 //routes with id
 
 //get a todo by id
