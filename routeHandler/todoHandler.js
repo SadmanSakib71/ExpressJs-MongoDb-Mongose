@@ -6,11 +6,10 @@ const todoSchema = require("../schemas/todoSchema");
 //create mongoose model
 const toDo = mongoose.model("toDo", todoSchema);
 
+//routes without id
+
 //get all the todo
 router.get("/", async (req, res) => {});
-
-//get a todo by id
-router.get("/:id", async (req, res) => {});
 
 //post a todo
 router.post("/", async (req, res) => {
@@ -33,7 +32,56 @@ router.post("/all", async (req, res) => {
   }
 });
 
-//put a todo
+//put all the todo at a time ,a specific field
+
+router.put("/bulk", async (req, res) => {
+  try {
+    await toDo.updateMany(
+      {},
+      {
+        $set: {
+          status: req.body.status,
+        },
+      },
+      { runValidators: true },
+    );
+    res.status(200).json({ message: "Todos was updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//put all the todo but not a specific field
+router.put("/bulk-update", async (req, res) => {
+  try {
+    const operations = req.body.map((item) => ({
+      updateOne: {
+        filter: { _id: item._id },
+        update: {
+          $set: {
+            title: item.title,
+          },
+        },
+        runValidators: true,
+      },
+    }));
+
+    await toDo.bulkWrite(operations, {
+      ordered: true,
+    });
+
+    res.status(200).json({ message: "Todos was updated successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+//routes with id
+
+//get a todo by id
+router.get("/:id", async (req, res) => {});
+
+//put a todo by
 router.put("/:id", async (req, res) => {
   try {
     await toDo.updateOne(
