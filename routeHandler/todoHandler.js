@@ -136,7 +136,14 @@ router.put("/:id", async (req, res) => {
   // }
 });
 
-//delete the todo
-router.delete("/:id", async (req, res) => {});
+//delete the single todo
+router.delete("/:id", async (req, res) => {
+  try {
+    await toDo.deleteOne({ _id: req.params.id });
+    res.status(200).json({ message: "Todo was successfully deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = router;
