@@ -9,7 +9,17 @@ const toDo = mongoose.model("toDo", todoSchema);
 //routes without id
 
 //get all the todo
-router.get("/", async (req, res) => {});
+router.get("/", async (req, res) => {
+  try {
+    const result = await toDo.find();
+
+    res
+      .status(200)
+      .json({ result: result, message: "Todos was updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 //post a todo
 router.post("/", async (req, res) => {
@@ -70,7 +80,9 @@ router.put("/bulk-update", async (req, res) => {
       ordered: true,
     });
 
-    res.status(200).json({ message: "Todos was updated successfully" });
+    res
+      .status(200)
+      .json({ result: result, message: "Todos was updated successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
