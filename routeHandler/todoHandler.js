@@ -13,9 +13,20 @@ router.get("/", async (req, res) => {
   try {
     const result = await toDo.find({ status: "active" }, { _id: 0 }).limit(2);
 
+    res.status(200).json({ result: result, message: "Todos get successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//get all the active todo
+router.get("/active", async (req, res) => {
+  try {
+    const todo = new toDo();
+    const result = await todo.findActive();
     res
       .status(200)
-      .json({ result: result, message: "Todos was updated successfully" });
+      .json({ result: result, message: "active Todos get successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

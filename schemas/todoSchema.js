@@ -16,7 +16,7 @@ const todoSchema = mongoose.Schema({
   },
 });
 
-todoSchema.method = {
+todoSchema.methods = {
   findActive: () => {
     return mongoose.model("toDo").find({ status: "active" });
   },
