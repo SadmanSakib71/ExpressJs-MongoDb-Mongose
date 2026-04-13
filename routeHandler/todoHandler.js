@@ -44,6 +44,18 @@ router.get("/word/:word", async (req, res) => {
   }
 });
 
+//get all the todo by word match-query method
+router.get("/word", async (req, res) => {
+  try {
+    const result = await toDo.find().byLanguage("joy");
+    res
+      .status(200)
+      .json({ result: result, message: "active Todos get successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 //post a todo
 router.post("/", async (req, res) => {
   try {
