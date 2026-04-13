@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const todoHandler = require("./routeHandler/todoHandler");
+const userHandler = require("./routeHandler/userHandler");
 
 //express app initialization
 const app = express();
@@ -14,6 +15,7 @@ mongoose
 
 //app routes
 app.use("/todo", todoHandler);
+app.use("/user", userHandler);
 
 //default error handler
 const errorHandler = (err, req, res, next) => {
