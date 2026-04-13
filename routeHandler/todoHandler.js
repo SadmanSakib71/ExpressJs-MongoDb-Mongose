@@ -33,9 +33,9 @@ router.get("/active", async (req, res) => {
 });
 
 //get all the todo by word match-static method
-router.get("/sakib", async (req, res) => {
+router.get("/word/:word", async (req, res) => {
   try {
-    const result = await toDo.findSakib();
+    const result = await toDo.findByWord(req.params.word);
     res
       .status(200)
       .json({ result: result, message: "active Todos get successfully" });

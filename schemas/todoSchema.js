@@ -23,8 +23,8 @@ todoSchema.methods = {
 };
 
 todoSchema.statics = {
-  findSakib: function () {
-    return this.find({ title: /sakib/i });
+  findByWord: function (word) {
+    return this.find({ title: new RegExp(word, "i") });
   },
 };
 
