@@ -19,11 +19,23 @@ router.get("/", async (req, res) => {
   }
 });
 
-//get all the active todo
+//get all the active todo by instance method
 router.get("/active", async (req, res) => {
   try {
     const todo = new toDo();
     const result = await todo.findActive();
+    res
+      .status(200)
+      .json({ result: result, message: "active Todos get successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//get all the todo by word match-static method
+router.get("/sakib", async (req, res) => {
+  try {
+    const result = await toDo.findSakib();
     res
       .status(200)
       .json({ result: result, message: "active Todos get successfully" });

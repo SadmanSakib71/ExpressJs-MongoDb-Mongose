@@ -17,8 +17,14 @@ const todoSchema = mongoose.Schema({
 });
 
 todoSchema.methods = {
-  findActive: () => {
+  findActive: function () {
     return mongoose.model("toDo").find({ status: "active" });
+  },
+};
+
+todoSchema.statics = {
+  findSakib: function () {
+    return this.find({ title: /sakib/i });
   },
 };
 
