@@ -16,4 +16,10 @@ const todoSchema = mongoose.Schema({
   },
 });
 
+todoSchema.method = {
+  findActive: () => {
+    return mongoose.model("toDo").find({ status: "active" });
+  },
+};
+
 module.exports = todoSchema;
