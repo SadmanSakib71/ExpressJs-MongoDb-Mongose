@@ -2,10 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const todoSchema = require("../schemas/todoSchema");
+const userSchema = require("../schemas/userSchema");
 const checkLogin = require("../middleWare/checkLogin");
 
 //create mongoose model
 const toDo = mongoose.model("toDo", todoSchema);
+const user = mongoose.model("user", userSchema);
 
 //routes without id
 
@@ -65,7 +67,18 @@ router.post("/", checkLogin, async (req, res) => {
   try {
     //got the userId from middle ware,and connect user with todo
     const newTodo = new toDo({ ...req.body, user: req.userId });
-    await newTodo.save();
+    const todoData = await newTodo.save();
+
+    //connect todos with user
+    await user.updateOne(
+      { _id: req.userId },
+      {
+        $push: {
+          todos: todoData._id,
+        },
+      },
+    );
+
     res.status(200).json({ message: "Todo inserted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
