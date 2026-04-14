@@ -36,11 +36,25 @@ router.post("/login", async (req, res) => {
         checkUser.password,
       );
       if (isValidPassword) {
+        const token = jwt.sign(
+          {
+            userName: checkUser.userName,
+            userId: checkUser._id,
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: "1hr" },
+        );
+
+        res
+          .status(201)
+          .json({ accessToken: token, message: "Logged in successfully" });
       } else {
-        res.status(401).json({ error: "Authentication failed" });
+        res
+          .status(401)
+          .json({ error: "Authentication failed, password doesn't match" });
       }
     } else {
-      res.status(401).json({ error: "Authentication failed" });
+      res.status(401).json({ error: "Authentication failed,user not found" });
     }
   } catch (error) {
     console.log(error);
