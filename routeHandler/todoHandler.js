@@ -58,9 +58,9 @@ router.get("/word", async (req, res) => {
 });
 
 //post a todo
-router.post("/", async (req, res) => {
+router.post("/", checkLogin, async (req, res) => {
   try {
-    const newTodo = new toDo(req.body);
+    const newTodo = new toDo({ ...req.body, user: req.userId });
     await newTodo.save();
     res.status(200).json({ message: "Todo inserted successfully" });
   } catch (err) {
