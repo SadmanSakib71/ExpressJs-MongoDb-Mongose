@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const todoSchema = require("../schemas/todoSchema");
+const checkLogin = require("../middleWare/checkLogin");
 
 //create mongoose model
 const toDo = mongoose.model("toDo", todoSchema);
@@ -9,7 +10,7 @@ const toDo = mongoose.model("toDo", todoSchema);
 //routes without id
 
 //get all the todo
-router.get("/", async (req, res) => {
+router.get("/", checkLogin, async (req, res) => {
   try {
     const result = await toDo.find({ status: "active" }, { _id: 0 }).limit(2);
 
