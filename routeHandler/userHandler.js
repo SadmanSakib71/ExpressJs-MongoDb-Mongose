@@ -61,4 +61,16 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//get all users
+router.get("/all", async (req, res) => {
+  try {
+    const users = await user.find({}).populate("todos");
+    res
+      .status(200)
+      .json({ result: users, message: "Todos get successfully in user" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;
