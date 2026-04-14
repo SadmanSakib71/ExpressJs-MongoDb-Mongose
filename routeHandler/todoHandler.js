@@ -12,7 +12,10 @@ const toDo = mongoose.model("toDo", todoSchema);
 //get all the todo
 router.get("/", checkLogin, async (req, res) => {
   try {
-    const result = await toDo.find({ status: "active" }, { _id: 0 }).limit(2);
+    //populate with user...
+    const result = await toDo
+      .find({}, { _id: 0 })
+      .populate("user", "name userName -_id");
 
     res.status(200).json({ result: result, message: "Todos get successfully" });
   } catch (error) {
@@ -60,6 +63,7 @@ router.get("/word", async (req, res) => {
 //post a todo
 router.post("/", checkLogin, async (req, res) => {
   try {
+    //got the userId from middle ware,and connect user with todo
     const newTodo = new toDo({ ...req.body, user: req.userId });
     await newTodo.save();
     res.status(200).json({ message: "Todo inserted successfully" });
